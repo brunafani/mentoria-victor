@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complemento Estratégico — Víctor Moral Inostroza · Encontros 3 e 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1612;
+    --gold: #B8872A;
+    --gold-light: #F5E8C8;
+    --muted: #7A6F65;
+    --border: #E2D8CE;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --sage: #4A6741;
+    --sage-light: #D6E4D4;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --rose: #9B3A5C;
+    --rose-light: #F5D9E4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.75; }
+  @media print { .print-btn { display: none !important; } body { background: white; } }
+
+  .print-btn {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--ink); color: var(--cream);
+    border: none; padding: 12px 22px; border-radius: 30px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: .1em; cursor: pointer; z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25); transition: background .2s;
+  }
+  .print-btn:hover { background: var(--gold); }
+
+  /* CAPA */
+  .cover { min-height: 100vh; display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; background: #0F1A2E; }
+  .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(184,135,42,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(184,135,42,.07) 1px, transparent 1px); background-size: 48px 48px; }
+  .cover-accent { position: absolute; top: -120px; right: -80px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(83,74,183,.18) 0%, transparent 70%); }
+  .cover-accent2 { position: absolute; bottom: 60px; left: -100px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(184,135,42,.12) 0%, transparent 70%); }
+  .cover-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 80px 72px; max-width: 900px; }
+  .cover-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
+  .cover-label::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); }
+  .cover-title { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5.5vw, 66px); font-weight: 900; line-height: 1.06; color: var(--cream); margin-bottom: 14px; }
+  .cover-title em { font-style: italic; color: var(--gold); }
+  .cover-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(16px, 2.2vw, 20px); font-weight: 400; font-style: italic; color: rgba(250,247,242,.45); margin-bottom: 52px; line-height: 1.5; max-width: 600px; }
+  .cover-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 52px; }
+  .cover-pill { font-family: 'DM Mono', monospace; font-size: 10.5px; letter-spacing: .06em; padding: 6px 16px; border-radius: 20px; border: 1px solid; }
+  .pill-purple { color: #A9A4F5; border-color: rgba(169,164,245,.3); background: rgba(83,74,183,.12); }
+  .pill-gold { color: var(--gold); border-color: rgba(184,135,42,.3); background: rgba(184,135,42,.1); }
+  .pill-teal { color: #5EC9A8; border-color: rgba(94,201,168,.3); background: rgba(15,110,86,.12); }
+  .pill-coral { color: #F0956A; border-color: rgba(216,90,48,.3); background: rgba(216,90,48,.1); }
+  .cover-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cover-meta-row { font-size: 13px; color: rgba(250,247,242,.4); font-family: 'DM Mono', monospace; letter-spacing: .04em; }
+  .cover-meta-row span { color: rgba(250,247,242,.75); }
+  .cover-footer { position: relative; z-index: 2; padding: 28px 72px; border-top: 1px solid rgba(250,247,242,.08); display: flex; justify-content: space-between; align-items: center; }
+  .cover-footer-text { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(250,247,242,.3); letter-spacing: .08em; }
+  .cover-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--purple); background: rgba(83,74,183,.15); border: 1px solid rgba(83,74,183,.3); padding: 5px 14px; border-radius: 20px; letter-spacing: .06em; }
+
+  /* CONTINUAÇÃO BADGE */
+  .continuacao-badge {
+    background: var(--purple-light); border: 1px solid rgba(83,74,183,.2);
+    border-radius: 12px; padding: 20px 28px; margin-bottom: 48px;
+    display: flex; align-items: flex-start; gap: 18px;
+  }
+  .cont-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+  .cont-text { font-size: 13.5px; color: var(--ink); line-height: 1.7; }
+  .cont-text strong { color: var(--purple); }
+
+  /* BODY */
+  .body-wrap { max-width: 880px; margin: 0 auto; padding: 80px 48px 120px; }
+
+  .section { margin-bottom: 80px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; line-height: 1.2; margin-bottom: 10px; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--blue); }
+  .section-title em.gold { color: var(--gold); }
+  .section-title em.coral { color: var(--coral); }
+  .section-title em.purple { color: var(--purple); }
+  .section-title em.teal { color: var(--teal); }
+  .section-intro { font-size: 14.5px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; max-width: 680px; }
+  .divider { height: 1px; background: var(--border); margin: 64px 0; }
+
+  /* ENCONTRO HEADER */
+  .encontro-header {
+    display: flex; align-items: center; gap: 20px; margin-bottom: 32px;
+    padding: 20px 28px; border-radius: 14px; border: 1px solid var(--border);
+    background: white;
+  }
+  .encontro-num {
+    font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900;
+    line-height: 1; flex-shrink: 0; width: 60px; text-align: center;
+  }
+  .encontro-divider { width: 1px; height: 52px; background: var(--border); flex-shrink: 0; }
+  .encontro-info { flex: 1; }
+  .encontro-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px; }
+  .encontro-titulo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+
+  /* STAR METHOD */
+  .star-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .star-card {
+    border-radius: 14px; padding: 24px;
+    border: 1px solid var(--border);
+  }
+  .star-letter { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 900; line-height: 1; margin-bottom: 8px; }
+  .star-word { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 12px; }
+  .star-desc { font-size: 13px; line-height: 1.7; color: var(--muted); }
+  .star-example { font-size: 12.5px; line-height: 1.65; margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-style: italic; }
+
+  .star-s { background: var(--blue-light); border-color: rgba(24,95,165,.2); }
+  .star-s .star-letter { color: var(--blue); }
+  .star-s .star-word { color: var(--blue); }
+  .star-s .star-example { background: rgba(24,95,165,.08); color: var(--blue); }
+
+  .star-t { background: var(--teal-light); border-color: rgba(15,110,86,.2); }
+  .star-t .star-letter { color: var(--teal); }
+  .star-t .star-word { color: var(--teal); }
+  .star-t .star-example { background: rgba(15,110,86,.08); color: var(--teal); }
+
+  .star-a { background: var(--gold-light); border-color: rgba(184,135,42,.2); }
+  .star-a .star-letter { color: var(--gold); }
+  .star-a .star-word { color: var(--gold); }
+  .star-a .star-example { background: rgba(184,135,42,.1); color: #7A5510; }
+
+  .star-r { background: var(--sage-light); border-color: rgba(74,103,65,.2); }
+  .star-r .star-letter { color: var(--sage); }
+  .star-r .star-word { color: var(--sage); }
+  .star-r .star-example { background: rgba(74,103,65,.08); color: var(--sage); }
+
+  /* TRANSFORMAÇÃO BULLETS */
+  .transform-block { margin-bottom: 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+  .transform-row { display: grid; grid-template-columns: 80px 1fr; }
+  .transform-label {
+    padding: 16px 14px; font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .1em; text-transform: uppercase; display: flex; align-items: center;
+    justify-content: center; text-align: center; line-height: 1.4;
+  }
+  .transform-label.before { background: var(--coral-light); color: var(--coral); border-right: 1px solid rgba(216,90,48,.15); }
+  .transform-label.after { background: var(--sage-light); color: var(--sage); border-right: 1px solid rgba(74,103,65,.15); }
+  .transform-content { padding: 16px 20px; font-size: 13px; line-height: 1.7; }
+  .transform-content.before { background: white; color: var(--muted); }
+  .transform-content.after { background: #F7FBF7; color: var(--ink); }
+  .transform-content strong { color: var(--sage); }
+
+  /* PERGUNTAS TÉCNICAS */
+  .question-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .question-item {
+    background: white; border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start;
+  }
+  .q-icon { font-size: 16px; margin-top: 2px; }
+  .q-text { font-size: 13.5px; line-height: 1.65; color: var(--ink); }
+  .q-tip { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+  /* LINK CARDS */
+  .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .link-card {
+    background: white; border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px 22px; text-decoration: none; color: var(--ink);
+    transition: border-color .2s, box-shadow .2s; display: block;
+  }
+  .link-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+  .link-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .link-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; margin-bottom: 6px; color: var(--ink); }
+  .link-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .link-url { font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--blue); letter-spacing: .03em; word-break: break-all; }
+
+  /* VAGA ZERO */
+  .vaga-zero-box {
+    background: #0F1A2E; border-radius: 16px; padding: 40px 44px;
+    color: var(--cream); position: relative; overflow: hidden; margin-bottom: 24px;
+  }
+  .vaga-zero-box::before { content: ''; position: absolute; top: -50px; right: -50px; width: 260px; height: 260px; border-radius: 50%; background: radial-gradient(circle, rgba(83,74,183,.2) 0%, transparent 70%); }
+  .vz-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; font-style: italic; color: var(--cream); margin-bottom: 18px; position: relative; }
+  .vz-para { font-size: 13.5px; line-height: 1.85; color: rgba(250,247,242,.72); margin-bottom: 14px; position: relative; }
+  .vz-para strong { color: var(--cream); }
+  .vz-para em { color: var(--gold); font-style: italic; }
+
+  .vaga-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .vaga-option { border-radius: 12px; padding: 20px; border: 1px solid var(--border); background: white; position: relative; overflow: hidden; }
+  .vaga-option::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .vaga-option.op-a::before { background: var(--teal); }
+  .vaga-option.op-b::before { background: var(--blue); }
+  .vaga-option.op-c::before { background: var(--purple); }
+  .vaga-scenario { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .vaga-option.op-a .vaga-scenario { color: var(--teal); }
+  .vaga-option.op-b .vaga-scenario { color: var(--blue); }
+  .vaga-option.op-c .vaga-scenario { color: var(--purple); }
+  .vaga-org { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+  .vaga-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .vaga-link { font-family: 'DM Mono', monospace; font-size: 10.5px; color: var(--blue); }
+  .vaga-link a { color: var(--blue); text-decoration: none; }
+  .vaga-link a:hover { text-decoration: underline; }
+
+  /* CARTA ESTRUTURA */
+  .carta-estrutura { display: flex; flex-direction: column; gap: 0; margin-bottom: 24px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+  .carta-para { display: grid; grid-template-columns: 110px 1fr; }
+  .carta-num { padding: 20px 16px; display: flex; align-items: flex-start; justify-content: center; }
+  .carta-num-inner { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; }
+  .carta-body { padding: 20px 24px; border-left: 1px solid var(--border); }
+  .carta-para + .carta-para .carta-num,
+  .carta-para + .carta-para .carta-body { border-top: 1px solid var(--border); }
+  .carta-para:nth-child(1) .carta-num { background: var(--blue-light); }
+  .carta-para:nth-child(1) .carta-num-inner { color: var(--blue); }
+  .carta-para:nth-child(2) .carta-num { background: var(--gold-light); }
+  .carta-para:nth-child(2) .carta-num-inner { color: var(--gold); }
+  .carta-para:nth-child(3) .carta-num { background: var(--teal-light); }
+  .carta-para:nth-child(3) .carta-num-inner { color: var(--teal); }
+  .carta-para:nth-child(4) .carta-num { background: var(--purple-light); }
+  .carta-para:nth-child(4) .carta-num-inner { color: var(--purple); }
+  .carta-heading { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .carta-text { font-size: 13.5px; line-height: 1.75; color: var(--ink); }
+  .carta-text strong { color: var(--ink); font-weight: 500; }
+  .carta-text em { color: var(--muted); font-style: italic; }
+
+  /* FIT CULTURAL */
+  .fit-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .fit-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .fit-icon { font-size: 22px; margin-bottom: 10px; }
+  .fit-comp { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--purple); margin-bottom: 6px; }
+  .fit-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.3; }
+  .fit-desc { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+  .fit-exemple { font-size: 12px; margin-top: 8px; font-style: italic; color: var(--purple); padding: 8px 12px; background: var(--purple-light); border-radius: 6px; }
+
+  /* TOR */
+  .tor-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .tor-side { border-radius: 14px; padding: 24px; border: 1px solid; }
+  .tor-side.clt { border-color: rgba(216,90,48,.25); background: var(--coral-light); }
+  .tor-side.tor { border-color: rgba(15,110,86,.25); background: var(--teal-light); }
+  .tor-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+  .tor-side.clt .tor-label { color: var(--coral); }
+  .tor-side.tor .tor-label { color: var(--teal); }
+  .tor-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tor-list li { font-size: 13px; color: var(--ink); line-height: 1.6; display: flex; gap: 10px; align-items: flex-start; }
+  .tor-list li::before { content: '→'; flex-shrink: 0; margin-top: 2px; }
+  .tor-side.clt .tor-list li::before { color: var(--coral); }
+  .tor-side.tor .tor-list li::before { color: var(--teal); }
+
+  /* NETWORKING */
+  .outreach-grid { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .outreach-item { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .out-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .out-lang { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; padding: 4px 12px; border-radius: 20px; }
+  .out-lang.es { background: var(--teal-light); color: var(--teal); }
+  .out-lang.en { background: var(--blue-light); color: var(--blue); }
+  .out-lang.pt { background: var(--gold-light); color: #7A5510; }
+  .out-context { font-size: 13px; color: var(--muted); font-style: italic; }
+  .out-template { background: #F7F9FB; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; font-size: 13px; line-height: 1.75; color: var(--ink); font-family: 'DM Sans', sans-serif; }
+  .out-template strong { color: var(--blue); }
+  .out-note { font-size: 12px; color: var(--muted); margin-top: 10px; font-style: italic; }
+
+  /* DAILY RATE */
+  .rate-box { background: #0F1A2E; border-radius: 14px; padding: 32px 36px; color: var(--cream); margin-bottom: 24px; }
+  .rate-title { font-family: 'Playfair Display', serif; font-size: 18px; font-style: italic; color: var(--cream); margin-bottom: 18px; }
+  .rate-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .rate-item { }
+  .rate-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: rgba(250,247,242,.4); margin-bottom: 6px; }
+  .rate-value { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+  .rate-note { font-size: 12px; color: rgba(250,247,242,.55); line-height: 1.6; }
+
+  /* PRÓXIMOS PASSOS */
+  .step-item { display: grid; grid-template-columns: 100px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .step-item:last-child { border-bottom: none; }
+  .step-timing { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.4; padding-top: 4px; }
+  .step-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 8px; }
+  .step-badge.imediato { background: var(--purple-light); color: var(--purple); }
+  .step-badge.urgente { background: var(--coral-light); color: var(--coral); }
+  .step-badge.paralelo { background: var(--blue-light); color: var(--blue); }
+  .step-badge.estrategico { background: var(--gold-light); color: #7A5510; }
+  .step-title { font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 8px; line-height: 1.4; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.75; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+  .step-desc a { color: var(--blue); text-decoration: none; }
+  .step-desc a:hover { text-decoration: underline; }
+
+  /* HIGHLIGHT */
+  .highlight-box { background: #0F1A2E; border-radius: 16px; padding: 40px 44px; color: var(--cream); position: relative; overflow: hidden; margin-bottom: 24px; }
+  .highlight-box::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(184,135,42,.16) 0%, transparent 70%); }
+  .highlight-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; font-style: italic; color: var(--cream); margin-bottom: 18px; position: relative; }
+  .highlight-para { font-size: 13.5px; line-height: 1.85; color: rgba(250,247,242,.72); margin-bottom: 14px; position: relative; }
+  .highlight-para:last-child { margin-bottom: 0; }
+  .highlight-para strong { color: var(--cream); }
+  .highlight-para em { color: var(--gold); font-style: italic; }
+
+  /* INLINE LINK STYLE */
+  a.inline-link { color: var(--blue); text-decoration: none; font-weight: 500; }
+  a.inline-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-accent"></div>
+  <div class="cover-accent2"></div>
+
+  <div class="cover-content">
+    <div class="cover-label">Mentoria de Carreira Internacional · Plano Essencial</div>
+    <h1 class="cover-title">Complemento<br>Estratégico —<br><em>Encontros 3 & 4</em></h1>
+    <p class="cover-subtitle">O que o Diagnóstico não cobriu: a Vaga Zero, o Método STAR, o Cold Outreach e a lógica dos ToRs multilaterais</p>
+    <div class="cover-pills">
+      <span class="cover-pill pill-purple">Encontro 3 · Carta de Intenção</span>
+      <span class="cover-pill pill-gold">Encontro 4 · Entrevista Internacional</span>
+      <span class="cover-pill pill-teal">Networking Ativo</span>
+      <span class="cover-pill pill-coral">ToRs e Daily Rate</span>
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-row">Candidato: <span>Víctor Moral Inostroza</span></div>
+      <div class="cover-meta-row">Documento: <span>Complemento ao Diagnóstico · Maio 2026</span></div>
+      <div class="cover-meta-row">Foco: <span>Geospatial Data Analyst · Mercado Internacional</span></div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span class="cover-footer-text">Para uso interno da mentoria — não distribuir</span>
+    <span class="cover-tag">Continuação do Diagnóstico</span>
+  </div>
+</div>
+
+<!-- CORPO -->
+<div class="body-wrap">
+
+  <!-- BADGE INTRO -->
+  <div class="continuacao-badge">
+    <div class="cont-icon">🔗</div>
+    <div class="cont-text">
+      Este documento é a <strong>continuação direta do Diagnóstico de Perfil Internacional</strong> produzido no Encontro 1. Ele não repete o que já foi mapeado — assume que o Diagnóstico foi lido — e foca exclusivamente nas quatro lacunas identificadas para a segunda metade da mentoria: a <strong>Vaga Zero</strong> como laboratório prático, o <strong>Método STAR</strong> para entrevistas, a <strong>estratégia de networking ativo</strong> e a <strong>lógica dos contratos multilaterais</strong> (ToRs vs. CLT).
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- ENCONTRO 3 · VAGA ZERO + CARTA DE INTENÇÃO -->
+  <!-- ─────────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Encontro 3</div>
+
+    <div class="encontro-header">
+      <div class="encontro-num" style="color:var(--purple);">03</div>
+      <div class="encontro-divider"></div>
+      <div class="encontro-info">
+        <div class="encontro-tag" style="color:var(--purple);">Carta de Intenção + Âncora Prática</div>
+        <div class="encontro-titulo">A Vaga Zero — o laboratório real da mentoria</div>
+      </div>
+    </div>
+
+    <div class="vaga-zero-box">
+      <div class="vz-title">Por que não existe carta de intenção genérica boa</div>
+      <p class="vz-para">Uma carta escrita para <em>"vagas de análise de dados geoespaciais"</em> não convence ninguém. Recrutadores de organismos multilaterais leem dezenas de cartas genericamente competentes todo dia. O que os faz parar é a <strong>especificidade cirúrgica</strong>: quando o candidato nomeia o programa, a vaga e o contexto da organização — e conecta isso diretamente a um projeto ou resultado próprio.</p>
+      <p class="vz-para">Por isso, <strong>a tarefa do Víctor antes do Encontro 3 é pinçar uma vaga real e aberta</strong> para usar como "Vaga Zero" — o laboratório onde a carta será construída frase a frase. A carta resultante não serve só para essa vaga; ela vira o template mental e o tom de referência para todas as outras.</p>
+      <p class="vz-para">Abaixo estão três opções concretas onde encontrar a Vaga Zero, distribuídas pelos cenários A, B e D mapeados no Diagnóstico.</p>
+    </div>
+
+    <div class="vaga-options">
+      <div class="vaga-option op-a">
+        <div class="vaga-scenario">Cenário A · Organismos Multilaterais</div>
+        <div class="vaga-org">FAO iRecruitment</div>
+        <div class="vaga-desc">Portal oficial de vagas da FAO — inclui consultorias de curto prazo (PSA e SSA), muitas delas abertas para candidatos do Sul Global com disponibilidade imediata. Filtrar por "GIS", "geospatial" ou "data analyst".</div>
+        <div class="vaga-link"><a href="https://jobs.fao.org" target="_blank">→ jobs.fao.org</a></div>
+      </div>
+      <div class="vaga-option op-b">
+        <div class="vaga-scenario">Cenário B · Consultorias de Impacto · Santiago</div>
+        <div class="vaga-org">Fundación Chile — Portal de Emprego</div>
+        <div class="vaga-desc">Organização chilena de inovação com projetos de dados territoriais e agrícolas. Contrata cidadãos chilenos diretamente, sem burocracia de visto. Filtrar por área de tecnologia e dados.</div>
+        <div class="vaga-link"><a href="https://fundacionchile.com/trabaja-con-nosotros/" target="_blank">→ fundacionchile.com/trabaja-con-nosotros</a></div>
+      </div>
+      <div class="vaga-option op-c">
+        <div class="vaga-scenario">Cenário D · Humanitário · HOT</div>
+        <div class="vaga-org">Humanitarian OpenStreetMap Team</div>
+        <div class="vaga-desc">O HOT publica vagas pagas em mapeamento humanitário, além do voluntariado. Uma consultoria HOT é o caminho mais rápido para o ecossistema OCHA/MapAction com histórico verificável.</div>
+        <div class="vaga-link"><a href="https://www.hotosm.org/jobs" target="_blank">→ hotosm.org/jobs</a></div>
+      </div>
+    </div>
+
+    <!-- OUTROS PORTAIS DE VAGAS -->
+    <div class="section-label" style="margin-top:36px;">Portais complementares para encontrar a Vaga Zero</div>
+
+    <div class="link-grid">
+      <a class="link-card" href="https://jobs.undp.org" target="_blank">
+        <div class="link-tag" style="color:var(--blue);">PNUD · ONU Desenvolvimento</div>
+        <div class="link-name">UNDP Jobs</div>
+        <div class="link-desc">Vagas do Programa das Nações Unidas para o Desenvolvimento — inclui GIS, dados territoriais e análise espacial em projetos de desenvolvimento humano.</div>
+        <div class="link-url">jobs.undp.org</div>
+      </a>
+      <a class="link-card" href="https://www.iadb.org/en/careers" target="_blank">
+        <div class="link-tag" style="color:var(--teal);">BID · América Latina</div>
+        <div class="link-name">IDB Careers</div>
+        <div class="link-desc">O BID contrata consultores e analistas de dados para projetos em infraestrutura, meio ambiente e desenvolvimento urbano na América Latina.</div>
+        <div class="link-url">iadb.org/en/careers</div>
+      </a>
+      <a class="link-card" href="https://jobs.cgiar.org" target="_blank">
+        <div class="link-tag" style="color:var(--sage);">CGIAR · Pesquisa Agrícola</div>
+        <div class="link-name">CGIAR Job Opportunities</div>
+        <div class="link-desc">Rede global de pesquisa agrícola — alta demanda por GIS e dados de solo e clima. Posições no CIAT (Colômbia) são acessíveis sem visto para cidadãos Sul-Americanos.</div>
+        <div class="link-url">jobs.cgiar.org</div>
+      </a>
+      <a class="link-card" href="https://www.linkedin.com/jobs/search/?keywords=GIS+analyst+Santiago&location=Chile" target="_blank">
+        <div class="link-tag" style="color:var(--purple);">LinkedIn · Chile</div>
+        <div class="link-name">LinkedIn Jobs — GIS · Santiago</div>
+        <div class="link-desc">Busca pré-configurada para analistas GIS em Santiago. Filtrar por "Remote" e "Contract" aumenta muito o alcance com a cidadania chilena ativa.</div>
+        <div class="link-url">linkedin.com/jobs → GIS analyst Santiago</div>
+      </a>
+      <a class="link-card" href="https://www.cepal.org/es/empleo" target="_blank">
+        <div class="link-tag" style="color:var(--coral);">CEPAL · ONU América Latina</div>
+        <div class="link-name">CEPAL — Emprego</div>
+        <div class="link-desc">Sede da CEPAL em Santiago — relevante porque combina localização chilena com status de organismo ONU. Vagas de consultoria em dados socioeconômicos e territoriais.</div>
+        <div class="link-url">cepal.org/es/empleo</div>
+      </a>
+      <a class="link-card" href="https://www.empleo.gob.cl" target="_blank">
+        <div class="link-tag" style="color:var(--gold);">Portal Empleo · Chile Oficial</div>
+        <div class="link-name">Portal Empleo Chile</div>
+        <div class="link-desc">Portal oficial do governo chileno — vagas no setor público chileno acessíveis com cidadania chilena, incluindo posições em ministérios de meio ambiente e agricultura.</div>
+        <div class="link-url">empleo.gob.cl</div>
+      </a>
+    </div>
+
+    <!-- ESTRUTURA DA CARTA -->
+    <div class="section-label" style="margin-top:40px;">Estrutura da carta de intenção · Formato multilateral em inglês</div>
+    <p class="section-intro">A carta precisa ter quatro parágrafos funcionais — não mais. Recrutadores de organismos leem com velocidade e buscam informação específica em cada bloco.</p>
+
+    <div class="carta-estrutura">
+      <div class="carta-para">
+        <div class="carta-num"><div class="carta-num-inner">¶1</div></div>
+        <div class="carta-body">
+          <div class="carta-heading">Cargo + Conexão Específica</div>
+          <div class="carta-text">
+            Nomear o cargo exato e o programa/projeto da vaga. Demonstrar que o Víctor conhece o contexto da organização — não candidatura genérica. <em>Exemplo: "I am writing to apply for the position of Geospatial Data Consultant under FAO's Land and Water Division programme in Latin America."</em> — o nome do programa é o sinal de que a carta foi escrita para aquela vaga.
+          </div>
+        </div>
+      </div>
+      <div class="carta-para">
+        <div class="carta-num"><div class="carta-num-inner">¶2</div></div>
+        <div class="carta-body">
+          <div class="carta-heading">Projeto âncora com resultado concreto</div>
+          <div class="carta-text">
+            O projeto mais relevante para aquela vaga — descrito em três frases: contexto, ação e resultado mensurável. <strong>Não "I have experience in GIS" — mas "I developed a spatial crime mapping model using KDE in QGIS for [cidade], identifying [resultado]."</strong> O projeto muda dependendo da vaga; o template de carta é o mesmo.
+          </div>
+        </div>
+      </div>
+      <div class="carta-para">
+        <div class="carta-num"><div class="carta-num-inner">¶3</div></div>
+        <div class="carta-body">
+          <div class="carta-heading">Diferencial único — o que outros candidatos não têm</div>
+          <div class="carta-text">
+            A combinação que nenhum outro candidato típico entrega: <strong>trilinguismo operacional (PT/ES/EN) + GIS + análise de dados + mobilidade imediata via cidadania chilena + mestrado em andamento</strong>. Este parágrafo é o único lugar onde o Víctor pode ser explicitamente assertivo sem soar arrogante — porque os fatos falam por si.
+          </div>
+        </div>
+      </div>
+      <div class="carta-para">
+        <div class="carta-num"><div class="carta-num-inner">¶4</div></div>
+        <div class="carta-body">
+          <div class="carta-heading">Call to action + disponibilidade</div>
+          <div class="carta-text">
+            Frase curta: disponibilidade para entrevista em qualquer horário (mencionar fusos relevantes se remota), e onde encontrar portfólio — <strong>link do GitHub e/ou ResearchGate</strong>. <em>"My geospatial portfolio is available at github.com/[usuário], and I welcome the opportunity to discuss how my background fits the team's needs."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ───────────────────────────────────────── -->
+  <!-- ENCONTRO 4 · ESTRATÉGIA DE ENTREVISTA     -->
+  <!-- ───────────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Encontro 4</div>
+
+    <div class="encontro-header">
+      <div class="encontro-num" style="color:var(--gold);">04</div>
+      <div class="encontro-divider"></div>
+      <div class="encontro-info">
+        <div class="encontro-tag" style="color:var(--gold);">Preparação para Entrevista Internacional</div>
+        <div class="encontro-titulo">Como o Víctor vai passar pela entrevista — não só ser chamado</div>
+      </div>
+    </div>
+
+    <p class="section-intro">O Diagnóstico mapeou com precisão como o Víctor vai ser chamado para entrevistas. Esta seção cobre o que acontece depois: o Método STAR para traduzir experiência em narrativa de impacto, as perguntas técnicas prováveis e o teste de fit cultural dos organismos multilaterais.</p>
+
+    <!-- MÉTODO STAR -->
+    <div class="section-label">O Método STAR — da tarefa à narrativa de impacto</div>
+    <p class="section-intro" style="margin-bottom:20px;">O CV atual do Víctor descreve tarefas. Entrevistadores de organismos internacionais precisam ouvir impactos. O STAR é o tradutor.</p>
+
+    <div class="star-grid">
+      <div class="star-card star-s">
+        <div class="star-letter">S</div>
+        <div class="star-word">Situation · Contexto</div>
+        <div class="star-desc">O cenário e o problema — uma ou duas frases que situam o entrevistador sem excesso de detalhe. Deve conter escala: quantas pessoas afetadas, qual organização, qual urgência.</div>
+        <div class="star-example">"At QUEST, we were supporting a consumer goods client losing market share due to poor NPS scores — they had no clear picture of which touchpoints were causing churn across 400+ distribution points."</div>
+      </div>
+      <div class="star-card star-t">
+        <div class="star-letter">T</div>
+        <div class="star-word">Task · Responsabilidade</div>
+        <div class="star-desc">O que era especificamente responsabilidade do Víctor — não do time, da empresa. Usar primeira pessoa e verbos de ação. Este é o ponto mais negligenciado pelos candidatos brasileiros.</div>
+        <div class="star-example">"I was responsible for designing the survey methodology, building the Power BI dashboard and presenting findings directly to the client's regional director — entirely in Spanish."</div>
+      </div>
+      <div class="star-card star-a">
+        <div class="star-letter">A</div>
+        <div class="star-word">Action · Ação concreta</div>
+        <div class="star-desc">O que o Víctor fez, passo a passo relevante. Este é o bloco mais longo — deve revelar competência técnica e decisão. Evitar voz passiva e frases vagas como "I helped" ou "I participated".</div>
+        <div class="star-example">"I ran ETL on three datasets in Google Colab, built a geospatial cluster analysis in QGIS to segment distributors by performance quartile, and created a bilingual dashboard that the client presented to their board."</div>
+      </div>
+      <div class="star-card star-r">
+        <div class="star-letter">R</div>
+        <div class="star-word">Result · Resultado mensurável</div>
+        <div class="star-desc">O desfecho — com número ou comparação temporal sempre que possível. Se não há número exato, usar estimativa honesta. O resultado é o que o entrevistador vai lembrar da resposta.</div>
+        <div class="star-example">"The client identified the top 12% of underperforming distributors causing 60% of negative NPS responses — and used the findings to restructure their field team deployment."</div>
+      </div>
+    </div>
+
+    <!-- TRANSFORMAÇÃO DE BULLETS -->
+    <div class="section-label" style="margin-top:36px;">Prática · Transformando bullets do CV em respostas STAR</div>
+    <p class="section-intro">Exemplos de como reescrever as experiências do Víctor do formato CV (tarefa) para o formato entrevista (impacto).</p>
+
+    <div class="transform-block">
+      <div class="transform-row">
+        <div class="transform-label before">CV atual</div>
+        <div class="transform-content before">"Realização das etapas de ETL (Extract, Transform and Load), modelagem e análise de dados."</div>
+      </div>
+      <div class="transform-row">
+        <div class="transform-label after">Resposta STAR</div>
+        <div class="transform-content after">"At Taking Consult, I was tasked with building a machine learning pipeline for satellite image analysis. I extracted, cleaned and transformed three heterogeneous geospatial datasets in Google Colab and Databricks, applying dimensionality reduction before the ML model. <strong>The result was a working prototype that reduced manual image classification time by approximately 40%, validating the approach for the client's scale-up phase."</strong></div>
+      </div>
+    </div>
+
+    <div class="transform-block">
+      <div class="transform-row">
+        <div class="transform-label before">CV atual</div>
+        <div class="transform-content before">"Análises estatísticas: cálculos e construção dos gráficos de clusters; Análise dos Componentes Principais (PCA), testes matriciais, estatísticos e plotagem dos gráficos."</div>
+      </div>
+      <div class="transform-row">
+        <div class="transform-label after">Resposta STAR</div>
+        <div class="transform-content after">"At ALGV, I was brought in to make sense of a poorly structured document archive dataset — there was no analytical framework, just raw records. I applied PCA and cluster analysis in GeoDa to identify structural patterns in the collection. <strong>That work produced the validation report that allowed the client to prioritize digitisation — cutting their manual review workload in half and providing the basis for their storage contract renewal."</strong></div>
+      </div>
+    </div>
+
+    <!-- PERGUNTAS TÉCNICAS PROVÁVEIS -->
+    <div class="section-label" style="margin-top:36px;">Perguntas técnicas prováveis — vagas GIS e dados</div>
+    <p class="section-intro">Em entrevistas para posições de analista geoespacial, esperar uma sabatina técnica — às vezes com teste prático por e-mail antes ou depois. Estas são as perguntas mais recorrentes no ecossistema FAO/CGIAR/HOT.</p>
+
+    <div class="question-list">
+      <div class="question-item">
+        <div class="q-icon">🗺️</div>
+        <div>
+          <div class="q-text">"Walk me through a spatial analysis project — from raw data to insight. What tools did you use at each step?"</div>
+          <div class="q-tip">Usar o projeto de mapeamento de crimes em Sorocaba — tem todas as etapas: coleta, KDE, QGIS, resultado. Mencionar CRS, projeções e decisões metodológicas — isso separa quem realmente faz GIS de quem só cita o QGIS no CV.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">🐍</div>
+        <div>
+          <div class="q-text">"What Python libraries do you use for geospatial analysis? Can you describe a workflow using them?"</div>
+          <div class="q-tip">Resposta honesta e estratégica: mencionar GeoPandas e Google Colab com exemplos reais, e declarar que está aprofundando Shapely e Rasterio (mostra auto-consciência e plano de crescimento — muito valorizado em organismos multilaterais).</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">📡</div>
+        <div>
+          <div class="q-text">"Have you worked with satellite or remote sensing data? What platforms or APIs have you used?"</div>
+          <div class="q-tip">Mencionar o projeto MapBiomas + SoilGrids com coleta via API — descrever como os dados foram extraídos, em que formato chegaram e como foram processados. Se possível, ter um notebook no GitHub para mostrar durante a entrevista.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">🔄</div>
+        <div>
+          <div class="q-text">"Describe a situation where your data analysis changed a decision that was already being made."</div>
+          <div class="q-tip">Esta é a pergunta STAR mais importante. Preparar a resposta do projeto ALGV ou QUEST onde uma análise mudou efetivamente uma direção — não apenas informou. O impacto decisório é o que os organismos buscam.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">🌐</div>
+        <div>
+          <div class="q-text">"You've worked in Portuguese and Spanish — how do you handle technical communication across language contexts?"</div>
+          <div class="q-tip">Responder com exemplos reais da QUEST (reuniões e treinamentos em três idiomas). Mencionar que já produziu relatórios formais em espanhol e inglês — e que prefere documentar projetos em inglês por padrão para garantir alcance internacional.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIT CULTURAL -->
+    <div class="section-label" style="margin-top:36px;">Fit cultural em organismos multilaterais — competências comportamentais</div>
+    <p class="section-intro">A ONU, FAO, BID e CGIAR avaliam competências comportamentais com o mesmo rigor técnico. As mais testadas estão abaixo — com a tradução para o contexto do Víctor.</p>
+
+    <div class="fit-grid">
+      <div class="fit-card">
+        <div class="fit-icon">🤝</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Trabalho em equipe multiculturais</div>
+        <div class="fit-desc">Capacidade de colaborar em times com múltiplas culturas, línguas e metodologias de trabalho sem atrito.</div>
+        <div class="fit-exemple">Âncora do Víctor: intercâmbio na Universidad del Sur (Argentina) + gestão de clientes em PT/ES/EN na QUEST. Mencionar decisões que exigiram adaptação cultural.</div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-icon">💡</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Orientação a resultados com recursos limitados</div>
+        <div class="fit-desc">Organismos multilaterais trabalham com orçamentos apertados e prazos de projeto. Querem candidatos que entregam mais com menos.</div>
+        <div class="fit-exemple">Âncora do Víctor: uso de ferramentas open-source (QGIS, GeoDa, Google Colab) para análises que outras consultorias fazem com licenças caras. Isso é um ativo — não uma limitação.</div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-icon">🌱</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Consciência do impacto e missão</div>
+        <div class="fit-desc">Candidatos que claramente escolheram o setor por convicção — não apenas por oportunidade — têm retenção maior e são mais valorizados em processos multilaterais.</div>
+        <div class="fit-exemple">Âncora do Víctor: mestrado em geografia aplicada + projetos com impacto territorial real. Preparar uma frase clara sobre por que dados geoespaciais no contexto de desenvolvimento humano — não como linha de CV, mas como convicção articulada.</div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-icon">📢</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Comunicação para audiências diversas</div>
+        <div class="fit-desc">Saber apresentar resultados técnicos para tomadores de decisão não-técnicos é raro e muito valorizado — especialmente em multilateral onde gestores são generalistas.</div>
+        <div class="fit-exemple">Âncora do Víctor: experiência como professor de geografia + facilitação de treinamentos corporativos. Saber traduzir complexidade em clareza é uma competência dupla — técnica E pedagógica.</div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-icon">🔍</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Integridade e transparência em dados</div>
+        <div class="fit-desc">Em organismos, erros metodológicos têm impacto em políticas públicas. A honestidade sobre limitações e incertezas nos dados é uma competência explicitamente avaliada.</div>
+        <div class="fit-exemple">Preparar uma resposta para: "Tell me about a time your analysis had limitations — and how you communicated that to the client." Honestidade metodológica é sinal de maturidade técnica.</div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-icon">🚀</div>
+        <div class="fit-comp">Competência Core</div>
+        <div class="fit-name">Adaptabilidade e aprendizado contínuo</div>
+        <div class="fit-desc">Especialmente em consultorias de curto prazo — o candidato precisa ser funcional em semanas, não meses. Agilidade técnica e disposição para aprender ferramentas novas rapidamente.</div>
+        <div class="fit-exemple">Âncora do Víctor: Databricks + Azure na Taking Consult (aprendeu on the job), INDECX na QUEST. Mencionar uma ferramenta que aprendeu rapidamente para entregar um projeto — e como fez isso.</div>
+      </div>
+    </div>
+
+    <!-- RECURSOS PARA PREPARAÇÃO -->
+    <div class="section-label" style="margin-top:36px;">Recursos para preparação de entrevista · Links diretos</div>
+
+    <div class="link-grid">
+      <a class="link-card" href="https://www.unjobnetwork.org/blog/un-competency-based-interview/" target="_blank">
+        <div class="link-tag" style="color:var(--purple);">ONU · Entrevista Multilateral</div>
+        <div class="link-name">UN Job Network — Competency Interview Guide</div>
+        <div class="link-desc">Guia específico para entrevistas baseadas em competências no sistema ONU — formato exato que a FAO, PNUD e OCHA usam. Inclui exemplos de perguntas e estrutura de avaliação.</div>
+        <div class="link-url">unjobnetwork.org/blog/un-competency-based-interview</div>
+      </a>
+      <a class="link-card" href="https://www.geeksforgeeks.org/gis-interview-questions/" target="_blank">
+        <div class="link-tag" style="color:var(--teal);">GIS · Preparação Técnica</div>
+        <div class="link-name">GIS Technical Interview Questions</div>
+        <div class="link-desc">Compêndio de perguntas técnicas de GIS recorrentes em entrevistas — cobre projeções cartográficas, análise espacial, rasterização e Python GIS. Útil para revisar terminologia em inglês.</div>
+        <div class="link-url">geeksforgeeks.org/gis-interview-questions</div>
+      </a>
+      <a class="link-card" href="https://www.interviewbit.com/data-analyst-interview-questions/" target="_blank">
+        <div class="link-tag" style="color:var(--blue);">Dados · Perguntas Técnicas</div>
+        <div class="link-name">Data Analyst Interview Questions</div>
+        <div class="link-desc">Lista abrangente de perguntas técnicas para analistas de dados — SQL, estatística, Python e visualização. Útil para revisar vocabulário técnico em inglês antes de entrevistas.</div>
+        <div class="link-url">interviewbit.com/data-analyst-interview-questions</div>
+      </a>
+      <a class="link-card" href="https://practiceinterviews.com" target="_blank">
+        <div class="link-tag" style="color:var(--gold);">Prática · Simulação</div>
+        <div class="link-name">Practice Interviews (AI Mock)</div>
+        <div class="link-desc">Ferramenta de simulação de entrevista com IA — útil para praticar respostas STAR em inglês em voz alta antes do Encontro 4. Permite gravar e ouvir o próprio desempenho.</div>
+        <div class="link-url">practiceinterviews.com</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─────────────────────── -->
+  <!-- NETWORKING ATIVO         -->
+  <!-- ─────────────────────── -->
+  <div class="section">
+    <div class="section-label">Gap 3 · Prospecção Ativa</div>
+    <h2 class="section-title">Networking e <em class="teal">Cold Outreach</em></h2>
+    <p class="section-intro">O Diagnóstico mapeou candidaturas passivas (portais) e posicionamento (GitHub, ResearchGate). Esta seção cobre o ataque ativo: como o Víctor aborda recrutadores e profissionais estratégicos com mensagens que geram resposta.</p>
+
+    <div class="highlight-box">
+      <div class="highlight-title">A regra do outreach eficaz: especificidade antes de pedido</div>
+      <p class="highlight-para">A maioria das abordagens frias falha porque segue a lógica errada: <strong>primeiro pede (vaga, conexão, indicação) e depois justifica</strong>. O outreach que gera resposta inverte isso — primeiro entrega valor ou demonstra interesse genuíno e específico, depois abre espaço para troca. A regra: <em>nunca peça nada na primeira mensagem</em>. O único objetivo do primeiro contato é gerar uma resposta.</p>
+      <p class="highlight-para">No caso do Víctor, o ativo mais poderoso no outreach é a especificidade do nicho: <em>dados geoespaciais + desenvolvimento territorial + América Latina + trilinguismo</em>. Isso não é CV — é uma combinação que o interlocutor não encontra todo dia, e que merece ser dita claramente já na abertura.</p>
+    </div>
+
+    <!-- TEMPLATES -->
+    <div class="section-label" style="margin-top:36px;">Templates de mensagem · Cold outreach por contexto</div>
+
+    <div class="outreach-grid">
+
+      <div class="outreach-item">
+        <div class="out-header">
+          <span class="out-lang es">ES</span>
+          <span class="out-context">LinkedIn · Recrutador ou profissional de GIS em Santiago</span>
+        </div>
+        <div class="out-template">
+          Hola <strong>[Nome]</strong>, vi tu perfil mientras investigaba el ecosistema de datos geoespaciales en Santiago. Soy geógrafo brasileño con ciudadanía chilena, maestría en curso en la UFSCar y experiencia en análisis espacial con QGIS y Python — incluyendo proyectos de mapeamiento de uso de suelo via API del MapBiomas. Estoy buscando conectar con personas que trabajan en datos territoriales en Chile. ¿Estarías dispuest@ a un intercambio rápido de 15 minutos para entender mejor el mercado desde tu perspectiva?
+        </div>
+        <div class="out-note">Nota: nenhum pedido de vaga. O objetivo é a conversa. A vaga vem depois, se vier.</div>
+      </div>
+
+      <div class="outreach-item">
+        <div class="out-header">
+          <span class="out-lang en">EN</span>
+          <span class="out-context">LinkedIn · Brasileiro(a) trabalhando no sistema ONU no exterior</span>
+        </div>
+        <div class="out-template">
+          Hi <strong>[Nome]</strong>, I came across your profile while researching Brazilians working in the UN system — your trajectory from [cidade] to [org] is genuinely inspiring. I'm a Brazilian geographer with Chilean citizenship, currently finishing a master's on spatial analysis at UFSCar, and looking to transition into geospatial data roles in international development. If you have 15 minutes sometime, I'd love to hear how you made the move — not to ask for a referral, just to learn from your experience.
+        </div>
+        <div class="out-note">Nota: a frase "not to ask for a referral" desarma a resistência. A referência pode vir naturalmente depois.</div>
+      </div>
+
+      <div class="outreach-item">
+        <div class="out-header">
+          <span class="out-lang es">ES</span>
+          <span class="out-context">LinkedIn ou email · Recrutador de consultoria de impacto em Santiago</span>
+        </div>
+        <div class="out-template">
+          Hola <strong>[Nome]</strong>, vi la publicación de <strong>[empresa]</strong> sobre [projeto ou tema específico] — interesante el enfoque que están teniendo en datos territoriales. Tengo ciudadanía chilena y estoy buscando activamente oportunidades en Santiago en el área de análisis de datos geoespaciales. Mi perfil combina QGIS, Python, Power BI y experiencia en proyectos de uso del suelo y análisis espacial aplicado. Si hay algo en el horizonte que pueda ser de interés mutuo, me encantaría conocer más sobre el equipo.
+        </div>
+        <div class="out-note">Nota: a menção à publicação específica da empresa demonstra que não é mensagem em massa. Isso é o diferencial.</div>
+      </div>
+
+      <div class="outreach-item">
+        <div class="out-header">
+          <span class="out-lang en">EN</span>
+          <span class="out-context">Email · Consultores da FAO listados em projetos publicados</span>
+        </div>
+        <div class="out-template">
+          Dear <strong>[Nome]</strong>, I recently read the FAO report on [título do relatório — encontrado em fao.org/publications] where you are listed as a contributor. The methodological section on [tema específico] was particularly relevant to my own work on spatial analysis in [contexto do mestrado]. I'm a Brazilian geographer with Chilean citizenship looking to contribute to similar work in Latin America. Would you be open to a brief exchange — I'd be glad to share my work and learn from your experience in the field.
+        </div>
+        <div class="out-note">Nota: citar o relatório específico e o tema metodológico demonstra que o Víctor realmente leu o trabalho deles. Isso gera resposta onde uma mensagem genérica não geraria.</div>
+      </div>
+
+    </div>
+
+    <!-- ONDE ENCONTRAR CONTATOS -->
+    <div class="section-label" style="margin-top:36px;">Onde encontrar os contatos certos</div>
+
+    <div class="link-grid">
+      <a class="link-card" href="https://www.linkedin.com/search/results/people/?keywords=GIS+FAO+Chile&origin=GLOBAL_SEARCH_HEADER" target="_blank">
+        <div class="link-tag" style="color:var(--blue);">LinkedIn · Busca Estratégica</div>
+        <div class="link-name">LinkedIn — GIS + FAO + Chile</div>
+        <div class="link-desc">Busca pré-configurada para profissionais de GIS na FAO baseados no Chile. Filtrar por "2nd degree connections" aumenta a taxa de resposta. Ex-alunos da UFSCar no exterior são outra busca prioritária.</div>
+        <div class="link-url">linkedin.com/search → GIS FAO Chile</div>
+      </a>
+      <a class="link-card" href="https://www.fao.org/publications/en/" target="_blank">
+        <div class="link-tag" style="color:var(--teal);">FAO · Relatórios para pesquisa de contatos</div>
+        <div class="link-name">FAO Publications — América Latina</div>
+        <div class="link-desc">Relatórios da FAO listam os consultores e técnicos envolvidos. Ler relatórios recentes de projetos na América Latina e identificar nomes para abordagem específica e contextualizada.</div>
+        <div class="link-url">fao.org/publications</div>
+      </a>
+      <a class="link-card" href="https://tasks.hotosm.org" target="_blank">
+        <div class="link-tag" style="color:var(--coral);">HOT · Comunidade ativa</div>
+        <div class="link-name">HOT Tasking Manager</div>
+        <div class="link-desc">Plataforma onde mapeadores do HOT colaboram em projetos reais. Participar ativamente cria visibilidade orgânica na comunidade — sem necessidade de cold outreach. Networking que nasce do trabalho.</div>
+        <div class="link-url">tasks.hotosm.org</div>
+      </a>
+      <a class="link-card" href="https://www.researchgate.net" target="_blank">
+        <div class="link-tag" style="color:var(--purple);">ResearchGate · Rede acadêmica</div>
+        <div class="link-name">ResearchGate — Perfil e conexões</div>
+        <div class="link-desc">Criar perfil com dissertação e TCC. Seguir pesquisadores do ITC Twente, Wageningen e CGIAR que trabalham com GIS aplicado. Comentar em artigos antes de abordar o autor — o mesmo princípio do outreach.</div>
+        <div class="link-url">researchgate.net</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────────── -->
+  <!-- TORS / TRANSIÇÃO CLT → CONSULTOR   -->
+  <!-- ────────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Gap 4 · Lógica Multilateral</div>
+    <h2 class="section-title">ToRs, Daily Rate e a <em class="coral">transição do CLT</em></h2>
+    <p class="section-intro">O Víctor está acostumado ao regime CLT brasileiro. A maioria das posições nos cenários A e D do Diagnóstico funcionam sob lógica diferente: contratos por projeto, pagamento por entregável ou por "daily rate", sem benefícios fixos. Entender isso antes da primeira candidatura evita surpresa e negociação fraca.</p>
+
+    <div class="tor-compare">
+      <div class="tor-side clt">
+        <div class="tor-label">Lógica CLT · O que o Víctor conhece</div>
+        <ul class="tor-list">
+          <li>Contrato por tempo indeterminado com cargo fixo</li>
+          <li>Salário mensal com FGTS, férias e 13º</li>
+          <li>Descrição de cargo (Job Description) fixa</li>
+          <li>Avaliação de desempenho contínua</li>
+          <li>Benefícios: plano de saúde, VR, VT</li>
+          <li>Rescisão com aviso prévio e verbas</li>
+        </ul>
+      </div>
+      <div class="tor-side tor">
+        <div class="tor-label">Lógica Multilateral · O que vem pela frente</div>
+        <ul class="tor-list">
+          <li>Contrato por projeto (3, 6 ou 12 meses) renovável</li>
+          <li>Pagamento por "daily rate" (USD) ou por entregável</li>
+          <li>Terms of Reference (ToR) — escopo detalhado com outputs</li>
+          <li>Sem benefícios fixos — o rate já cobre isso</li>
+          <li>Avaliação por entrega — não por presença</li>
+          <li>Fim de contrato sem verbas — mas renovação é comum</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rate-box">
+      <div class="rate-title">Daily Rate de referência — analista GIS · nível Jr/Pleno · América Latina</div>
+      <div class="rate-grid">
+        <div class="rate-item">
+          <div class="rate-label">FAO / PNUD / BID · PSA</div>
+          <div class="rate-value">USD 180–320</div>
+          <div class="rate-note">Por dia trabalhado. Contratos de 20–60 dias típicos para consultores jr. Inclui todos os encargos — o consultor paga seus próprios impostos locais.</div>
+        </div>
+        <div class="rate-item">
+          <div class="rate-label">Consultorias privadas · Santiago</div>
+          <div class="rate-value">CLP 80k–140k</div>
+          <div class="rate-note">Por dia (aprox. USD 85–150). Posições em consultorias de impacto em Santiago podem ser CLT chilena (contrato indefinido) ou por projeto — verificar a modalidade na vaga.</div>
+        </div>
+        <div class="rate-item">
+          <div class="rate-label">HOT / ONGs humanitárias</div>
+          <div class="rate-value">USD 100–200</div>
+          <div class="rate-note">Variam muito por projeto e funder. Algumas posições no HOT são voluntárias no início e migram para remuneradas com histórico de entrega verificável.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMO LER UM TOR -->
+    <div class="section-label" style="margin-top:36px;">Como ler um Terms of Reference (ToR)</div>
+    <p class="section-intro">O ToR é o documento que substitui a Job Description no mundo multilateral. Saber lê-lo é saber o que vão avaliar.</p>
+
+    <div class="question-list">
+      <div class="question-item">
+        <div class="q-icon">📋</div>
+        <div>
+          <div class="q-text"><strong>Background & Context</strong> — Por que essa consultoria existe agora?</div>
+          <div class="q-tip">Leia para entender o problema real — não o cargo. Isso informa o que destacar na carta e na entrevista. Um ToR sobre "análise de vulnerabilidade climática em comunidades rurais" pede ênfase em dados socioespaciais — não em dashboards corporativos.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">🎯</div>
+        <div>
+          <div class="q-text"><strong>Objectives & Deliverables</strong> — O que exatamente o consultor vai entregar?</div>
+          <div class="q-tip">Esta seção é o critério de avaliação. Cada deliverable no ToR deve aparecer na carta de intenção como algo que o Víctor já fez em contexto similar. Se o ToR pede "spatial database + technical report + training workshop" — a carta menciona cada um desses outputs com exemplo real.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">✅</div>
+        <div>
+          <div class="q-text"><strong>Qualifications Required</strong> — O que é obrigatório vs. desejável?</div>
+          <div class="q-tip">Organismos distinguem "required" de "desirable". O Víctor deve candidatar-se se atender 100% dos "required" — mesmo que não atenda todos os "desirable". A maioria dos candidatos se autoexclui por falta de confiança nessa distinção.</div>
+        </div>
+      </div>
+      <div class="question-item">
+        <div class="q-icon">💰</div>
+        <div>
+          <div class="q-text"><strong>Duration & Modality</strong> — Quantos dias? Remoto ou presencial?</div>
+          <div class="q-tip">ToRs costumam especificar "X working days over Y months" — o daily rate é calculado sobre esse número. Remoto com viagens pontuais é o modelo mais comum na FAO para consultores da América Latina.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXEMPLO DE TOR REAL -->
+    <div class="section-label" style="margin-top:36px;">Onde encontrar ToRs reais para estudar</div>
+
+    <div class="link-grid">
+      <a class="link-card" href="https://jobs.fao.org/careersection/ex/jobsearch.ftl" target="_blank">
+        <div class="link-tag" style="color:var(--teal);">FAO · ToRs de consultoria</div>
+        <div class="link-name">FAO iRecruitment — Consultorias</div>
+        <div class="link-desc">Filtrar por "Consultancy" e "Latin America" para encontrar ToRs ativos. Ler 5–10 ToRs da área de GIS/dados antes do Encontro 3 para entender o vocabulário e os deliverables típicos pedidos.</div>
+        <div class="link-url">jobs.fao.org</div>
+      </a>
+      <a class="link-card" href="https://procurement-notices.undp.org" target="_blank">
+        <div class="link-tag" style="color:var(--blue);">PNUD · Avisos de contratação</div>
+        <div class="link-name">UNDP Procurement Notices</div>
+        <div class="link-desc">O PNUD publica ToRs de consultoria aqui antes de abrir formalmente no sistema de empregos. Monitorar para ter acesso antecipado a vagas na área de dados e GIS na América Latina.</div>
+        <div class="link-url">procurement-notices.undp.org</div>
+      </a>
+      <a class="link-card" href="https://www.devex.com/jobs" target="_blank">
+        <div class="link-tag" style="color:var(--purple);">Devex · Hub de Desenvolvimento Internacional</div>
+        <div class="link-name">Devex Jobs — International Development</div>
+        <div class="link-desc">Principal agregador de vagas e ToRs do setor de desenvolvimento internacional. Criar conta gratuita e configurar alerta para "GIS", "geospatial", "data analyst" na América Latina.</div>
+        <div class="link-url">devex.com/jobs</div>
+      </a>
+      <a class="link-card" href="https://reliefweb.int/jobs" target="_blank">
+        <div class="link-tag" style="color:var(--coral);">ReliefWeb · Humanitário</div>
+        <div class="link-name">ReliefWeb — Jobs & Internships</div>
+        <div class="link-desc">Portal da OCHA para vagas humanitárias — inclui posições de mapeamento e GIS no ecossistema OCHA/MapAction. Filtrar por "Information Management" e "GIS" para posições relevantes.</div>
+        <div class="link-url">reliefweb.int/jobs</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PRÓXIMOS PASSOS CONSOLIDADOS -->
+  <div class="section">
+    <div class="section-label">Próximos passos</div>
+    <h2 class="section-title">O que fazer e <em class="gold">quando</em> — semanas 3 e 4</h2>
+
+    <div>
+      <div class="step-item">
+        <div class="step-timing">Antes do<br>Encontro 3</div>
+        <div>
+          <div class="step-badge imediato">Ação obrigatória</div>
+          <div class="step-title">Pinçar a Vaga Zero e ler o ToR completo</div>
+          <div class="step-desc">Acessar <a href="https://jobs.fao.org" target="_blank">jobs.fao.org</a>, <a href="https://www.hotosm.org/jobs" target="_blank">hotosm.org/jobs</a> ou <a href="https://www.devex.com/jobs" target="_blank">devex.com/jobs</a> e selecionar uma vaga real e aberta para usar como laboratório. Ler o ToR inteiro e anotar: (1) os deliverables listados, (2) as qualificações "required" vs. "desirable", (3) o contexto do projeto. Trazer isso para o Encontro 3 — <strong>a carta será construída em cima desse ToR específico.</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Antes do<br>Encontro 3</div>
+        <div>
+          <div class="step-badge urgente">Preparação</div>
+          <div class="step-title">Escrever respostas STAR para os três projetos principais</div>
+          <div class="step-desc">Preparar a versão STAR de cada um dos três projetos-âncora (mapeamento de crimes em Sorocaba, projeto MapBiomas/SoilGrids e análise da dissertação de mestrado) usando a estrutura desta seção. <strong>Escrever em inglês — não em português para depois traduzir.</strong> Trazer os rascunhos para o Encontro 4 para ensaio e refinamento.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Semanas<br>3 e 4</div>
+        <div>
+          <div class="step-badge paralelo">Prospecção ativa</div>
+          <div class="step-title">Enviar 3 mensagens de cold outreach por semana</div>
+          <div class="step-desc">Usar os templates desta seção. Prioridade: (1) brasileiros no sistema ONU via <a href="https://www.linkedin.com" target="_blank">LinkedIn</a>, (2) profissionais de GIS em Santiago via LinkedIn Chile, (3) consultores da FAO identificados em publicações no <a href="https://www.fao.org/publications/en/" target="_blank">fao.org/publications</a>. <strong>Registrar em planilha simples: nome, data, canal, resposta.</strong> Três mensagens por semana = 24 contatos em 2 meses.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Semanas<br>3 e 4</div>
+        <div>
+          <div class="step-badge estrategico">Portfólio</div>
+          <div class="step-title">Publicar primeiro projeto no GitHub com documentação em inglês</div>
+          <div class="step-desc">Criar repositório no <a href="https://github.com" target="_blank">GitHub</a> e publicar o projeto de mapeamento de crimes em Sorocaba — com README em inglês descrevendo metodologia (KDE, QGIS, dados abertos), resultados e limitações. Esse repositório é o link que vai no último parágrafo de todas as cartas de intenção. Sem ele, o parágrafo não funciona.</div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Antes do<br>Encontro 4</div>
+        <div>
+          <div class="step-badge estrategico">Entrevista</div>
+          <div class="step-title">Simular entrevista técnica em inglês — gravar e ouvir</div>
+          <div class="step-desc">Usar o <a href="https://practiceinterviews.com" target="_blank">practiceinterviews.com</a> ou gravar áudio respondendo às cinco perguntas técnicas desta seção em inglês. Ouvir a própria gravação identificando: ritmo, vocabulário técnico, clareza da narrativa STAR. <strong>O objetivo não é perfeição — é conforto. Quem já se ouviu em inglês técnico tem 30% a mais de naturalidade na entrevista real.</strong></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div style="text-align:center;padding-top:40px;border-top:1px solid var(--border);">
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--muted);margin-bottom:8px;">Para uma Carreira sem Fronteiras</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;">Mentoria de Carreira Internacional · Plano Essencial · Complemento Encontros 3 & 4 · Maio de 2026</div>
+  </div>
+
+</div>
+
+<button class="print-btn" onclick="window.print()">↓ Salvar PDF</button>
+
+</body>
+</html>

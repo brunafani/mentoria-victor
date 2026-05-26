@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Perfil Internacional — Víctor Moral Inostroza</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1612;
+    --gold: #B8872A;
+    --gold-light: #F5E8C8;
+    --muted: #7A6F65;
+    --border: #E2D8CE;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --sage: #4A6741;
+    --sage-light: #D6E4D4;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --rose: #9B3A5C;
+    --rose-light: #F5D9E4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.75; }
+  @media print { .print-btn { display: none !important; } body { background: white; } }
+  .print-btn {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--ink); color: var(--cream);
+    border: none; padding: 12px 22px; border-radius: 30px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: .1em; cursor: pointer; z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25); transition: background .2s;
+  }
+  .print-btn:hover { background: var(--gold); }
+
+  /* CAPA */
+  .cover { min-height: 100vh; display: grid; grid-template-rows: 1fr auto; position: relative; overflow: hidden; background: #0F1A2E; }
+  .cover-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(184,135,42,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(184,135,42,.07) 1px, transparent 1px); background-size: 48px 48px; }
+  .cover-accent { position: absolute; top: -120px; right: -80px; width: 520px; height: 520px; border-radius: 50%; background: radial-gradient(circle, rgba(24,95,165,.18) 0%, transparent 70%); }
+  .cover-accent2 { position: absolute; bottom: 60px; left: -100px; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(184,135,42,.12) 0%, transparent 70%); }
+  .cover-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: 80px 72px; max-width: 860px; }
+  .cover-label { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; display: flex; align-items: center; gap: 14px; }
+  .cover-label::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--gold); }
+  .cover-title { font-family: 'Playfair Display', serif; font-size: clamp(44px, 6vw, 72px); font-weight: 900; line-height: 1.05; color: var(--cream); margin-bottom: 12px; }
+  .cover-title em { font-style: italic; color: var(--gold); }
+  .cover-subtitle { font-family: 'Playfair Display', serif; font-size: clamp(18px, 2.5vw, 22px); font-weight: 400; font-style: italic; color: rgba(250,247,242,.45); margin-bottom: 56px; line-height: 1.4; }
+  .cover-meta { display: flex; flex-direction: column; gap: 6px; }
+  .cover-meta-row { font-size: 13px; color: rgba(250,247,242,.4); font-family: 'DM Mono', monospace; letter-spacing: .04em; }
+  .cover-meta-row span { color: rgba(250,247,242,.75); }
+  .cover-footer { position: relative; z-index: 2; padding: 28px 72px; border-top: 1px solid rgba(250,247,242,.08); display: flex; justify-content: space-between; align-items: center; }
+  .cover-footer-text { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(250,247,242,.3); letter-spacing: .08em; }
+  .cover-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); background: rgba(184,135,42,.12); border: 1px solid rgba(184,135,42,.25); padding: 5px 14px; border-radius: 20px; letter-spacing: .06em; }
+
+  /* BODY */
+  .body-wrap { max-width: 860px; margin: 0 auto; padding: 80px 48px 120px; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 36px; }
+  .stat-box { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px 18px; text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--ink); line-height: 1; margin-bottom: 6px; }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); line-height: 1.4; }
+
+  .section { margin-bottom: 80px; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 24px; color: var(--ink); }
+  .section-title em { font-style: italic; color: var(--blue); }
+  .section-title em.gold { color: var(--gold); }
+  .section-title em.coral { color: var(--coral); }
+  .divider { height: 1px; background: var(--border); margin: 60px 0; }
+
+  .highlight-box { background: #0F1A2E; border-radius: 16px; padding: 48px 52px; color: var(--cream); position: relative; overflow: hidden; margin-bottom: 28px; }
+  .highlight-box::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; background: radial-gradient(circle, rgba(24,95,165,.16) 0%, transparent 70%); }
+  .highlight-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; font-style: italic; color: var(--cream); margin-bottom: 20px; position: relative; }
+  .highlight-para { font-size: 14px; line-height: 1.85; color: rgba(250,247,242,.72); margin-bottom: 16px; position: relative; }
+  .highlight-para:last-child { margin-bottom: 0; }
+  .highlight-para strong { color: var(--cream); font-weight: 500; }
+  .highlight-para em { color: var(--gold); font-style: italic; }
+
+  .strength-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+  .strength-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 22px; }
+  .strength-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
+  .strength-card:nth-child(1) .strength-tag { color: var(--blue); }
+  .strength-card:nth-child(2) .strength-tag { color: var(--teal); }
+  .strength-card:nth-child(3) .strength-tag { color: var(--gold); }
+  .strength-card:nth-child(4) .strength-tag { color: var(--purple); }
+  .strength-card:nth-child(5) .strength-tag { color: var(--sage); }
+  .strength-card:nth-child(6) .strength-tag { color: var(--coral); }
+  .strength-text { font-size: 13.5px; color: var(--ink); line-height: 1.65; }
+
+  .gap-list { display: flex; flex-direction: column; gap: 12px; }
+  .gap-item { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; display: grid; grid-template-columns: 4px 1fr; gap: 20px; align-items: stretch; }
+  .gap-bar { border-radius: 4px; }
+  .gap-bar.alta { background: #E24B4A; }
+  .gap-bar.media { background: #EF9F27; }
+  .gap-bar.atencao { background: var(--teal); }
+  .gap-priority { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; font-weight: 500; }
+  .gap-priority.alta { background: #FCEBEB; color: #A32D2D; }
+  .gap-priority.media { background: #FAEEDA; color: #854F0B; }
+  .gap-priority.atencao { background: var(--teal-light); color: var(--teal); }
+  .gap-title { font-weight: 500; font-size: 14px; color: var(--ink); margin-bottom: 5px; }
+  .gap-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .gap-desc strong { color: var(--ink); font-weight: 500; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+  .vocab-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .vocab-card:nth-child(1) { border-top: 3px solid var(--blue); }
+  .vocab-card:nth-child(2) { border-top: 3px solid var(--teal); }
+  .vocab-card:nth-child(3) { border-top: 3px solid var(--gold); }
+  .vocab-card:nth-child(4) { border-top: 3px solid var(--purple); }
+  .vocab-card:nth-child(5) { border-top: 3px solid var(--coral); }
+  .vocab-category { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; }
+  .vocab-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .vocab-list li { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink); display: flex; gap: 8px; align-items: flex-start; }
+  .vocab-list li::before { content: '→'; color: var(--muted); flex-shrink: 0; font-size: 11px; margin-top: 1px; }
+
+  .example-box { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 14px; }
+  .example-header { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .example-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 10px 20px; color: var(--muted); }
+  .example-col-label:first-child { border-right: 1px solid var(--border); }
+  .example-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .example-col { padding: 18px 20px; font-size: 13px; line-height: 1.65; }
+  .example-col:first-child { border-right: 1px solid var(--border); color: var(--muted); background: #FDFCFA; }
+  .example-col:last-child { color: var(--ink); }
+  .example-col .hl { color: var(--blue); font-weight: 500; }
+
+  .opp-list { display: flex; flex-direction: column; gap: 14px; }
+  .opp-item { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; position: relative; overflow: hidden; }
+  .opp-item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .opp-item:nth-child(1)::before { background: var(--blue); }
+  .opp-item:nth-child(2)::before { background: var(--teal); }
+  .opp-item:nth-child(3)::before { background: var(--gold); }
+  .opp-item:nth-child(4)::before { background: var(--purple); }
+  .opp-item:nth-child(5)::before { background: var(--coral); }
+  .opp-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+  .opp-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); background: var(--cream); border: 1px solid var(--border); border-radius: 6px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .opp-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1.25; margin-bottom: 3px; }
+  .opp-org { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em; color: var(--muted); text-transform: uppercase; }
+  .opp-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+  .opp-desc strong { color: var(--ink); font-weight: 500; }
+  .opp-tags { display: flex; gap: 7px; flex-wrap: wrap; }
+  .opp-tag { font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px; border-radius: 20px; letter-spacing: .04em; }
+  .opp-item:nth-child(1) .opp-tag { background: var(--blue-light); color: var(--blue); }
+  .opp-item:nth-child(2) .opp-tag { background: var(--teal-light); color: var(--teal); }
+  .opp-item:nth-child(3) .opp-tag { background: var(--gold-light); color: var(--gold); }
+  .opp-item:nth-child(4) .opp-tag { background: var(--purple-light); color: var(--purple); }
+  .opp-item:nth-child(5) .opp-tag { background: var(--coral-light); color: var(--coral); }
+
+  .step-item { display: grid; grid-template-columns: 120px 1fr; gap: 24px; align-items: start; padding: 20px 24px; background: white; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; position: relative; overflow: hidden; }
+  .step-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+  .step-item:nth-child(1)::before { background: var(--blue); }
+  .step-item:nth-child(2)::before { background: var(--gold); }
+  .step-item:nth-child(3)::before { background: var(--teal); }
+  .step-item:nth-child(4)::before { background: var(--purple); }
+  .step-item:nth-child(5)::before { background: var(--coral); }
+  .step-timing { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); line-height: 1.5; padding-top: 2px; }
+  .step-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+  .step-item:nth-child(1) .step-badge { background: var(--blue-light); color: var(--blue); }
+  .step-item:nth-child(2) .step-badge { background: var(--gold-light); color: var(--gold); }
+  .step-item:nth-child(3) .step-badge { background: var(--teal-light); color: var(--teal); }
+  .step-item:nth-child(4) .step-badge { background: var(--purple-light); color: var(--purple); }
+  .step-item:nth-child(5) .step-badge { background: var(--coral-light); color: var(--coral); }
+  .step-title { font-weight: 500; font-size: 14px; color: var(--ink); margin-bottom: 5px; }
+  .step-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-accent"></div>
+  <div class="cover-accent2"></div>
+  <div class="cover-content">
+    <div class="cover-label">Diagnóstico de Perfil Internacional</div>
+    <h1 class="cover-title">Víctor Moral<br><em>Inostroza</em></h1>
+    <p class="cover-subtitle">Geógrafo e cientista de dados<br>entre o Brasil, o Chile e o mundo</p>
+    <div class="cover-meta">
+      <div class="cover-meta-row">modalidade · <span>Plano Essencial — 4 encontros em 4 semanas</span></div>
+      <div class="cover-meta-row">documentos analisados · <span>CV, TCC, dissertação de mestrado e formulário de interesse</span></div>
+      <div class="cover-meta-row">entregue em · <span>Maio de 2026</span></div>
+    </div>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-footer-text">Para uma Carreira sem Fronteiras · Mentoria Internacional</div>
+    <div class="cover-tag">GIS · Dados · FAO · Chile · Multilateral</div>
+  </div>
+</div>
+
+<!-- CORPO -->
+<div class="body-wrap">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Anos em análise de dados aplicada</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Idiomas operacionais (PT · ES · EN)</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">MSc</div>
+      <div class="stat-label">Mestrado em Geografia — UFSCar 2026</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">CL</div>
+      <div class="stat-label">Cidadania chilena — direito de trabalho imediato</div>
+    </div>
+  </div>
+
+  <!-- LEITURA DO PERFIL -->
+  <div class="section">
+    <div class="section-label">Leitura do perfil</div>
+    <h2 class="section-title">O que este CV já <em>diz sobre você</em></h2>
+
+    <div class="highlight-box">
+      <div class="highlight-title">Você tem exatamente o perfil que organismos internacionais de dados geoespaciais procuram — e ainda não sabe disso.</div>
+      <p class="highlight-para">A maioria dos analistas de dados que quer trabalhar fora do Brasil não tem o que você tem: <strong>geoprocessamento real aplicado a problemas de território</strong>. Você usou Kernel Density Estimation e Diagramas de Voronoi para mapear padrões de crime em Sorocaba. Você coletou dados de solos via API do MapBiomas e SoilGrids. Você tem QGIS, GeoDa, Databricks, Azure, Power BI e Python em projetos reais, não em cursos. Isso é exatamente o stack que a FAO, o PNUMA, o CGIAR e o BID contratam em consultores e analistas.</p>
+      <p class="highlight-para">O bloqueio que você identificou — não saber se vale continuar em dados para o mercado internacional — tem uma resposta clara: <strong>vale, e o caminho não é o mercado genérico de dados corporativos</strong>. É o nicho de dados geoespaciais com aplicação em desenvolvimento territorial, segurança alimentar, meio ambiente e planejamento urbano. Esse nicho tem demanda global, paga bem e tem poucos profissionais com o seu nível de formação técnica e acadêmica.</p>
+      <p class="highlight-para">E existe um ativo que você está subestimando completamente: <em>a cidadania chilena</em>. Ela não é um detalhe. É a porta de entrada mais direta e imediata para o mercado de trabalho internacional — sem visto, sem processo consular, sem fila. O Chile tem um ecossistema de organismos internacionais, consultorias de impacto e startups de tecnologia que contratam analistas com inglês e perfil técnico sólido.</p>
+    </div>
+
+    <div class="strength-grid">
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #1 · Cidadania chilena</div>
+        <div class="strength-text">Direito de trabalho imediato no Chile sem visto. Facilita processos em países do Mercosul e da OCDE. Para organismos internacionais sediados em Santiago (CEPAL, FAO Chile, OPS), é o equivalente a já estar dentro do sistema. É o ativo mais imediato e mais subestimado do seu perfil.</div>
+      </div>
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #2 · Stack geoespacial rara</div>
+        <div class="strength-text">QGIS, GeoDa, Python aplicado a GIS, Machine Learning em imagens de satélite, APIs do MapBiomas e SoilGrids, Databricks, Azure. Para o mercado internacional de dados ambientais e territoriais, essa combinação é escassa. A FAO e o CGIAR contratam consultores com exatamente esse perfil.</div>
+      </div>
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #3 · Dissertação aplicada</div>
+        <div class="strength-text">Seu mestrado mapeou furtos e roubos no entorno de estabelecimentos comerciais em Sorocaba com metodologia quantitativa rigorosa. Para o mercado internacional, isso é um estudo de caso completo em análise territorial — segurança pública, planejamento urbano e desenvolvimento territorial são temas centrais do BID, OPS e UNODC.</div>
+      </div>
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #4 · Trilinguismo operacional</div>
+        <div class="strength-text">Português nativo, espanhol fluente, inglês fluente. Para organismos com foco na América Latina — CEPAL, FAO, OPS, BID — essa combinação é diferencial direto. Reuniões em três idiomas já são parte do seu histórico profissional na QUEST/INDECX. Isso não é teoria: é prática comprovada.</div>
+      </div>
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #5 · Rede universitária latinoamericana</div>
+        <div class="strength-text">O intercâmbio na Universidad del Sur via Asociación de Universidades Grupo Montevideo é reconhecido por organismos e universidades da região. Isso abre portas para redes acadêmicas internacionais — ResearchGate, repositórios de artigos e eventos geográficos da AGB e do CLACSO — que funcionam como porta de entrada para consultorias e organismos.</div>
+      </div>
+      <div class="strength-card">
+        <div class="strength-tag">Ativo #6 · Projeto de solos via API</div>
+        <div class="strength-text">O projeto de mapeamento com potencial de plantio por tipo de solo via MapBiomas e SoilGrids coletados por API é um projeto de agtech e segurança alimentar. Para a FAO e o CGIAR, que trabalham com análise de solo, cobertura vegetal e uso da terra em escala global, esse projeto fala diretamente ao seu core.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- GAPS DO CV -->
+  <div class="section">
+    <div class="section-label">Análise do CV</div>
+    <h2 class="section-title">O que precisa <em>ser ajustado</em></h2>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;">O CV atual está estruturado para o mercado brasileiro de dados corporativos — não para o mercado internacional de dados geoespaciais nem para organismos multilaterais. Não é uma questão de conteúdo, é de reposicionamento completo.</p>
+
+    <div class="gap-list">
+
+      <div class="gap-item">
+        <div class="gap-bar alta"></div>
+        <div class="gap-content">
+          <div class="gap-priority alta">Prioridade Alta</div>
+          <div class="gap-title">Não há headline nem professional summary — o leitor internacional não sabe quem você é</div>
+          <div class="gap-desc">O CV abre com "Objetivo: Analista de Dados", que não posiciona nada para um recrutador internacional. O headline precisa nomear o nicho e o diferencial: <strong>"Geospatial Data Analyst | GIS · Remote Sensing · Spatial Statistics | Spanish · English · Portuguese | Open to relocation"</strong>. O summary de três linhas logo abaixo deve conectar dados geoespaciais, desenvolvimento territorial e disponibilidade internacional. Em 6 segundos, o recrutador precisa saber exatamente onde você se encaixa.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar alta"></div>
+        <div class="gap-content">
+          <div class="gap-priority alta">Prioridade Alta</div>
+          <div class="gap-title">A seção de ferramentas é extensa mas sem contexto de aplicação</div>
+          <div class="gap-desc">Listar "QGIS — Intermediário, GeoDa — Intermediário, Python — Básico" não comunica nada para um recrutador da FAO ou do Banco Mundial. O que importa é o <strong>contexto de uso</strong>: geoprocessamento ambiental, análise territorial, segurança alimentar, planejamento urbano. As ferramentas precisam aparecer integradas nos bullets de projetos e experiência, não como lista isolada com nível autodeclarado.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar alta"></div>
+        <div class="gap-content">
+          <div class="gap-priority alta">Prioridade Alta</div>
+          <div class="gap-title">Os projetos geoespaciais existem mas estão invisíveis</div>
+          <div class="gap-desc">O mapeamento de crimes com KDE e Voronoi, o projeto de solos via API e o TCC de unidades geoambientais são três projetos sólidos que não existem como projetos no CV. Aparecem como linhas soltas na síntese. Para o mercado internacional, esses projetos são o portfólio — precisam de uma seção própria com: <strong>contexto do problema, dados utilizados, metodologia, ferramentas e resultado</strong>. Esse é o currículo real do Víctor.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar media"></div>
+        <div class="gap-content">
+          <div class="gap-priority media">Prioridade Média</div>
+          <div class="gap-title">A experiência acadêmica está subvalorizada em relação ao que o mercado internacional lê</div>
+          <div class="gap-desc">O mestrado, o TCC publicado e o intercâmbio via Grupo Montevideo têm peso diferente em currículos internacionais do que no mercado brasileiro. <strong>A dissertação precisa aparecer com o título completo, o abstract em inglês e a metodologia destacada.</strong> O intercâmbio precisa mencionar a rede universitária e o idioma desenvolvido. Para organismos como CEPAL e FAO, formação acadêmica com rigor metodológico é critério de triagem.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar media"></div>
+        <div class="gap-content">
+          <div class="gap-priority media">Prioridade Média</div>
+          <div class="gap-title">Não há presença em redes acadêmicas e profissionais internacionais</div>
+          <div class="gap-desc">ResearchGate, LinkedIn com perfil em inglês, comunidade ESRI, HOT (Humanitarian OpenStreetMap Team) e grupos de GIS no GitHub são os lugares onde recrutadores de organismos internacionais buscam profissionais de geoprocessamento. <strong>Você não existe nessas redes ainda.</strong> Criar um perfil ativo no ResearchGate com a dissertação e o TCC, e um repositório GitHub com os projetos geoespaciais documentados em inglês, é o que transforma o CV em presença verificável.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar atencao"></div>
+        <div class="gap-content">
+          <div class="gap-priority atencao">Ponto de Atenção</div>
+          <div class="gap-title">A cidadania chilena não está estrategicamente posicionada no CV</div>
+          <div class="gap-desc">Atualmente aparece em "Vivência Internacional" como um dado quase decorativo. Para candidaturas no Chile e em organismos com sede em Santiago, precisa aparecer de forma direta e destacada: <strong>"Chilean citizen — immediate right to work in Chile, no visa required."</strong> Para organismos internacionais que valorizam diversidade de nacionalidades (como o sistema ONU), a dupla cidadania Brasil-Chile é um diferencial real que precisa estar no topo do documento.</div>
+        </div>
+      </div>
+
+      <div class="gap-item">
+        <div class="gap-bar atencao"></div>
+        <div class="gap-content">
+          <div class="gap-priority atencao">Ponto de Atenção</div>
+          <div class="gap-title">Os bullets de experiência descrevem tarefas — não impacto</div>
+          <div class="gap-desc">"Realização de Desk Research para aplicação de Machine Learning em Geoprocessamento" descreve o que você fez. O que o recrutador internacional quer saber é: qual era o problema, qual foi a contribuição específica e qual foi o resultado. <strong>Cada bullet precisa do formato: verbo de ação + contexto técnico + impacto mensurável ou entregável concreto.</strong> A carta de intenção — que ainda precisa ser construída — vai precisar desses dados para existir.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- REESCRITA DE BULLETS -->
+  <div class="section">
+    <div class="section-label">Reescrita de bullets</div>
+    <h2 class="section-title">Como transformar tarefas em <em class="gold">impacto</em></h2>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;">O padrão internacional para bullets de CV é: verbo forte + contexto técnico ou geográfico + resultado concreto. Exemplos diretos baseados no seu CV.</p>
+
+    <div class="example-box">
+      <div class="example-header">
+        <div class="example-col-label">Como está no CV</div>
+        <div class="example-col-label">Como deve ficar (EN)</div>
+      </div>
+      <div class="example-body">
+        <div class="example-col">Projeto de mapeamento dos crimes de furto e roubo para celulares e veículos no município de Sorocaba, com o uso do software de geoprocessamento QGIS.</div>
+        <div class="example-col">Mapped spatial distribution of <span class="hl">mobile phone and vehicle thefts (2017–2024)</span> across Sorocaba using Kernel Density Estimation and Voronoi Diagrams in QGIS and GeoDa, identifying crime hotspots concentrated in the city centre and urban centralities.</div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-header">
+        <div class="example-col-label">Como está no CV</div>
+        <div class="example-col-label">Como deve ficar (EN)</div>
+      </div>
+      <div class="example-body">
+        <div class="example-col">Projeto de criação de mapas com potencial de plantio para cada tipo de solo, através do MapBiomas Brasil e SoilGrids, coletados via API.</div>
+        <div class="example-col">Developed <span class="hl">agricultural suitability maps</span> by soil type using Python API integration with MapBiomas Brazil and SoilGrids, producing geospatial datasets to support land use planning and food security analysis.</div>
+      </div>
+    </div>
+
+    <div class="example-box">
+      <div class="example-header">
+        <div class="example-col-label">Como está no CV</div>
+        <div class="example-col-label">Como deve ficar (EN)</div>
+      </div>
+      <div class="example-body">
+        <div class="example-col">Realização de Desk Research para aplicação de Machine Learning em Geoprocessamento (uso de IA em imagens de satélites). Realização das etapas de ETL, modelagem e análise de dados. Utilização de instrumentos como Databricks e Azure.</div>
+        <div class="example-col">Conducted research and executed <span class="hl">full ETL pipeline</span> in Databricks and Azure to support machine learning applied to satellite imagery geoprocessing, enabling AI-driven land use classification for a spatial intelligence consultancy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- VOCABULÁRIO -->
+  <div class="section">
+    <div class="section-label">Vocabulário estratégico</div>
+    <h2 class="section-title">As palavras que <em class="gold">o mercado internacional quer ouvir</em></h2>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;">Organismos internacionais e consultorias de desenvolvimento usam um vocabulário técnico específico nas suas JDs. O seu CV e carta de intenção precisam espelhar esses termos no contexto certo.</p>
+
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-category">GIS e Dados Espaciais</div>
+        <ul class="vocab-list">
+          <li>spatial analysis</li>
+          <li>geospatial intelligence</li>
+          <li>land use / land cover</li>
+          <li>remote sensing</li>
+          <li>hotspot mapping</li>
+          <li>kernel density estimation</li>
+        </ul>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-category">Desenvolvimento e Impacto</div>
+        <ul class="vocab-list">
+          <li>territorial planning</li>
+          <li>food security analysis</li>
+          <li>urban resilience</li>
+          <li>environmental monitoring</li>
+          <li>SDG indicators</li>
+          <li>evidence-based policy</li>
+        </ul>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-category">Organismos e Sistemas</div>
+        <ul class="vocab-list">
+          <li>multilateral context</li>
+          <li>technical assistance</li>
+          <li>field data collection</li>
+          <li>stakeholder reporting</li>
+          <li>ToR (Terms of Reference)</li>
+          <li>consultancy deliverables</li>
+        </ul>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-category">Tech Stack Internacional</div>
+        <ul class="vocab-list">
+          <li>QGIS / ArcGIS Pro</li>
+          <li>GeoPandas / Shapely</li>
+          <li>Python spatial libraries</li>
+          <li>ETL pipeline</li>
+          <li>API integration</li>
+          <li>cloud data (Azure / GEE)</li>
+        </ul>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-category">Perfil e Mobilidade</div>
+        <ul class="vocab-list">
+          <li>dual citizenship (BR/CL)</li>
+          <li>full geographic mobility</li>
+          <li>trilingual (PT/ES/EN)</div>
+          <li>LATAM regional context</li>
+          <li>field deployment ready</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- VAGAS-ALVO -->
+  <div class="section">
+    <div class="section-label">Mercado-alvo</div>
+    <h2 class="section-title">Onde você tem <em>vantagem competitiva real</em></h2>
+
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.7;">Cinco nichos onde o cruzamento de geoprocessamento + trilinguismo + cidadania chilena cria uma posição difícil de replicar por outros candidatos.</p>
+
+    <div class="opp-list">
+
+      <div class="opp-item">
+        <div class="opp-header">
+          <div class="opp-num">01</div>
+          <div>
+            <div class="opp-title">Organismos internacionais com dados geoespaciais</div>
+            <div class="opp-org">FAO · PNUMA · OPS/OPAS · CGIAR · BID</div>
+          </div>
+        </div>
+        <div class="opp-desc">FAO (dados agrícolas e uso do solo), PNUMA (dados ambientais), OPS/OPAS (dados de saúde georreferenciados), CGIAR (pesquisa agrícola com geoprocessamento) e BID têm demanda constante por consultores e analistas com QGIS, Python e análise territorial. <strong>Seu projeto de mapeamento de solos via API e a dissertação de segurança pública encaixam diretamente nos ToRs dessas organizações.</strong> Portais: jobs.fao.org, iadb.org/en/careers, cgiar.org/careers.</div>
+        <div class="opp-tags">
+          <span class="opp-tag">QGIS</span>
+          <span class="opp-tag">Python GIS</span>
+          <span class="opp-tag">FAO</span>
+          <span class="opp-tag">CGIAR</span>
+          <span class="opp-tag">BID</span>
+        </div>
+      </div>
+
+      <div class="opp-item">
+        <div class="opp-header">
+          <div class="opp-num">02</div>
+          <div>
+            <div class="opp-title">Mercado chileno de dados e tecnologia</div>
+            <div class="opp-org">Santiago · Startup Ecosystem · Consultorias de Impacto</div>
+          </div>
+        </div>
+        <div class="opp-desc">A cidadania chilena é a porta de entrada mais direta e com menor fricção. Santiago tem um ecossistema crescente de startups, consultorias e organismos públicos com demanda por cientistas de dados com inglês fluente. <strong>Fundación Chile, Desafío Levantemos Chile, e consultorias que prestam serviço a organismos internacionais sediados em Santiago (CEPAL, FAO Chile) são destinos naturais para um primeiro passo no exterior.</strong> Nenhum processo de visto necessário.</div>
+        <div class="opp-tags">
+          <span class="opp-tag">Cidadania Chilena</span>
+          <span class="opp-tag">CEPAL Santiago</span>
+          <span class="opp-tag">FAO Chile</span>
+          <span class="opp-tag">Sem Visto</span>
+        </div>
+      </div>
+
+      <div class="opp-item">
+        <div class="opp-header">
+          <div class="opp-num">03</div>
+          <div>
+            <div class="opp-title">Consultorias internacionais de desenvolvimento territorial</div>
+            <div class="opp-org">ICF · Ecorys · IDH · Consultorias UE / Banco Mundial</div>
+          </div>
+        </div>
+        <div class="opp-desc">ICF, Ecorys, IDH (Sustainable Trade Initiative) e consultorias que prestam serviços para a UE e o Banco Mundial em projetos de desenvolvimento territorial, segurança alimentar e mudança climática têm demanda direta por analistas com ETL, visualização e geoprocessamento. <strong>A experiência na Taking Consult com Databricks e Azure, reposicionada como spatial intelligence consultancy, é o ponto de entrada para esse mercado.</strong></div>
+        <div class="opp-tags">
+          <span class="opp-tag">Desenvolvimento Territorial</span>
+          <span class="opp-tag">ETL</span>
+          <span class="opp-tag">UE / Banco Mundial</span>
+          <span class="opp-tag">Remote possible</span>
+        </div>
+      </div>
+
+      <div class="opp-item">
+        <div class="opp-header">
+          <div class="opp-num">04</div>
+          <div>
+            <div class="opp-title">Doutorado com bolsa em universidades europeias ou latinoamericanas</div>
+            <div class="opp-org">Holanda · Suécia · Alemanha · ITC Twente · Universidades CLACSO</div>
+          </div>
+        </div>
+        <div class="opp-desc">Com o mestrado concluído e a dissertação publicada, o Víctor tem perfil competitivo para programas de doutorado com bolsa em geografia, geoestatística ou ciência de dados aplicada ao desenvolvimento. <strong>O ITC da Universidade de Twente (Holanda) é referência mundial em GIS e oferece bolsas específicas para candidatos do Sul Global.</strong> Wageningen (segurança alimentar), Lund (sustentabilidade) e universidades da rede CLACSO são caminhos que abrem o mercado de pesquisa aplicada internacional.</div>
+        <div class="opp-tags">
+          <span class="opp-tag">ITC Twente</span>
+          <span class="opp-tag">Bolsa GIS</span>
+          <span class="opp-tag">Pesquisa Aplicada</span>
+          <span class="opp-tag">Sul Global</span>
+        </div>
+      </div>
+
+      <div class="opp-item">
+        <div class="opp-header">
+          <div class="opp-num">05</div>
+          <div>
+            <div class="opp-title">Dados humanitários e mapeamento de crise</div>
+            <div class="opp-org">OCHA · MapAction · HOT (Humanitarian OpenStreetMap Team)</div>
+          </div>
+        </div>
+        <div class="opp-desc">OCHA, MapAction e o HOT (Humanitarian OpenStreetMap Team) usam dados geoespaciais para resposta humanitária e planejamento de emergências. O QGIS e o perfil de geoprocessamento encaixam diretamente. <strong>O HOT tem programas de voluntariado que funcionam como porta de entrada para o ecossistema humanitário — e que constroem rede e reputação verificável antes de qualquer candidatura formal.</strong> Para o OCHA, o portal ReliefWeb é o ponto de partida.</div>
+        <div class="opp-tags">
+          <span class="opp-tag">OCHA</span>
+          <span class="opp-tag">HOT</span>
+          <span class="opp-tag">MapAction</span>
+          <span class="opp-tag">Humanitarian GIS</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CENÁRIOS DE CARREIRA -->
+  <div class="section">
+    <div class="section-label">Visão de longo prazo</div>
+    <h2 class="section-title">Quatro <em>cenários de carreira</em></h2>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px;">
+
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">Cenário A · Alta probabilidade</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;">Chile como primeiro passo: consultoria ou organismo em Santiago</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;">Curto prazo: posição em consultoria de impacto ou organismo com sede em Santiago usando a cidadania chilena. Médio prazo: consultoria para FAO Chile ou CEPAL. Longo prazo: posição fixa em organismo multilateral.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--blue);">Santiago → FAO Chile / CEPAL → Organismo multilateral</div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;">Cenário B · Nicho técnico global</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;">Especialista GIS em organismos multilaterais de alimentos ou ambiente</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;">Construir portfólio geoespacial público (GitHub + HOT), aprofundar Python GIS e candidatar para consultorias da FAO, PNUMA e CGIAR. O projeto de solos via API é o case de entrada.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--teal);">HOT volunteer → FAO consultancy → CGIAR / PNUMA</div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Cenário C · Academia aplicada</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;">Doutorado com bolsa na Europa — ITC Twente ou Wageningen</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;">A dissertação publicada e o perfil de geoprocessamento abrem candidaturas competitivas para doutorado com bolsa no ITC Twente (Holanda), referência mundial em GIS, e em Wageningen para segurança alimentar.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);">ITC / Wageningen → Pesquisa aplicada → Consultoria UE</div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--purple);"></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;">Cenário D · Dados humanitários</div>
+        <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:12px;">Mapeamento humanitário — OCHA, MapAction ou HOT</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:14px;">Entrada via voluntariado no HOT (Humanitarian OpenStreetMap Team), que constrói reputação verificável e rede no ecossistema humanitário internacional. Posições remuneradas no OCHA e MapAction seguem naturalmente.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--purple);">HOT volunteer → MapAction → OCHA / ReliefWeb</div>
+      </div>
+
+    </div>
+
+    <div style="background:#0F1A2E;border-radius:14px;padding:28px 32px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(24,95,165,.15) 0%,transparent 70%);"></div>
+      <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;font-style:italic;color:var(--cream);margin-bottom:16px;position:relative;">Probabilidade e timing realistas</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;position:relative;">
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Curto prazo (0–6 meses)</div>
+          <div style="font-size:13px;color:rgba(250,247,242,.72);line-height:1.65;">Posições em consultorias de impacto em Santiago (cidadania chilena, sem visto), voluntariado no HOT, candidaturas a consultorias de curto prazo da FAO e BID. Alta probabilidade com CV repositionado e portfólio público.</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Médio prazo (6–18 meses)</div>
+          <div style="font-size:13px;color:rgba(250,247,242,.72);line-height:1.65;">Consultorias da FAO, PNUMA ou CGIAR, posição fixa em startup de impacto no Chile, candidatura a doutorado com bolsa (ITC Twente, Wageningen). Requer portfólio técnico documentado e presença em redes internacionais.</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Longo prazo (18+ meses)</div>
+          <div style="font-size:13px;color:rgba(250,247,242,.72);line-height:1.65;">Posições permanentes em organismos multilaterais, especialista GIS sênior em consultoria internacional, ou pesquisador aplicado com vínculo institucional europeu ou latinoamericano.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRÓXIMOS PASSOS -->
+  <div class="section">
+    <div class="section-label">Próximos passos</div>
+    <h2 class="section-title">O que fazer e <em class="gold">quando</em></h2>
+
+    <div>
+
+      <div class="step-item">
+        <div class="step-timing">Próximos<br>7 dias</div>
+        <div>
+          <div class="step-badge">Imediato</div>
+          <div class="step-title">Reescrever o CV com headline em inglês e seção de projetos geoespaciais</div>
+          <div class="step-desc">Criar o CV-base internacional com: (1) headline em inglês nomeando Geospatial Data Analyst + idiomas + mobilidade; (2) summary de 3 linhas posicionando dados geoespaciais + desenvolvimento territorial; (3) seção "Selected Projects" com os três projetos — mapeamento de crimes (KDE/Voronoi), mapeamento de solos (API MapBiomas/SoilGrids) e TCC de unidades geoambientais; (4) bullets reescritos em inglês com verbo + contexto + resultado. <strong>Esse é o documento-base para todas as candidaturas.</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Próximas<br>2 semanas</div>
+        <div>
+          <div class="step-badge">Urgente</div>
+          <div class="step-title">Publicar projetos geoespaciais no GitHub e criar perfil no ResearchGate</div>
+          <div class="step-desc">Criar repositório GitHub com os projetos documentados em inglês — pelo menos um Jupyter Notebook comentado da análise espacial da dissertação. Criar perfil no ResearchGate com a dissertação e o TCC. <strong>Para recrutadores da FAO, CGIAR e OCHA, esses são os lugares onde eles verificam se o candidato tem profundidade real. Um GitHub vazio ou ausente é sinal de que o perfil técnico declarado não tem onde se apoiar.</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Próximas<br>2 a 4 semanas</div>
+        <div>
+          <div class="step-badge">Paralelo</div>
+          <div class="step-title">Ativar perfil no HOT e explorar vagas em Santiago com a cidadania chilena</div>
+          <div class="step-desc">Criar conta no HOT (Humanitarian OpenStreetMap Team) em tasks.hotosm.org e contribuir com pelo menos um projeto de mapeamento. Isso constrói histórico verificável no ecossistema humanitário. Em paralelo, <strong>ativar busca no LinkedIn Chile, Portal Empleo Chile e sites de consultorias de impacto em Santiago — Fundación Chile, Desafío Levantemos Chile e escritórios regionais de FAO e CEPAL em Santiago contratam sem exigir visto para cidadãos chilenos.</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Próximas<br>4 a 6 semanas</div>
+        <div>
+          <div class="step-badge">Estratégico</div>
+          <div class="step-title">Escrever a carta de intenção em inglês para consultorias e organismos</div>
+          <div class="step-desc">A carta para candidaturas internacionais precisa estar em inglês e seguir a estrutura que organismos multilaterais esperam: parágrafo 1 sobre o cargo específico e por que você; parágrafo 2 sobre o projeto mais relevante com resultado concreto; parágrafo 3 sobre o que você entrega que outros candidatos não entregam (trilinguismo + GIS + disponibilidade imediata via cidadania chilena). <strong>A carta de intenção é o Encontro 3 do plano — vamos construí-la juntos a partir dos bullets reescritos.</strong></div>
+        </div>
+      </div>
+
+      <div class="step-item">
+        <div class="step-timing">Próximos<br>3 a 6 meses</div>
+        <div>
+          <div class="step-badge">Médio prazo</div>
+          <div class="step-title">Aprofundar Python GIS e pesquisar bolsas de doutorado no ITC Twente</div>
+          <div class="step-desc">Aprofundar GeoPandas, Shapely, Rasterio e Google Earth Engine em Python — esses são os pacotes que a FAO e o CGIAR pedem nos ToRs de consultoria. O curso "Geospatial Analysis with Python" do ITC Twente é gratuito e reconhecido. <strong>Em paralelo, mapear o próximo edital de bolsas do ITC Twente (University of Twente, Holanda) para candidatos do Sul Global: o prazo costuma abrir em setembro para início no ano seguinte. Com a dissertação publicada, o Víctor é candidato competitivo.</strong></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <div style="text-align:center;padding-top:40px;border-top:1px solid var(--border);">
+    <div style="font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--muted);margin-bottom:8px;">Para uma Carreira sem Fronteiras</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;">Mentoria de Carreira Internacional · Plano Essencial · Maio de 2026</div>
+  </div>
+
+</div>
+
+<button class="print-btn" onclick="window.print()">↓ Salvar PDF</button>
+
+</body>
+</html>
